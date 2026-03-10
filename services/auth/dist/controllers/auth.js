@@ -5,23 +5,56 @@ export const loginController = asyncHandler(async (req, res) => {
     const { name, email, picture } = req.body;
     if (!name || !email || !picture) {
         return res.status(400).json({
-            message: "email name and picture required"
+            message: "email name and picture required",
         });
     }
-    let existedUser = await User.findOne({ email });
-    if (!existedUser) {
-        existedUser = await User.create({
+    let user = await User.findOne({ email });
+    if (!user) {
+        user = await User.create({
             name,
             email,
-            image: picture
+            image: picture,
         });
     }
-    const token = jwt.sign({ existedUser }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ user }, process.env.JWT_SECRET, {
         expiresIn: "15d",
     });
     return res.status(201).json({
         message: "Logged in Succesfully",
         token,
-        existedUser
+        user,
+    });
+});
+const allowedRoles = ["customer", "rider", "seller"];
+export const adduserRole = asyncHandler(async (req, res) => {
+    if (!req.user?._id) {
+        res.status(401).json({
+            message: "Unauthorized",
+        });
+        return;
+    }
+    const { role } = req.body;
+    if (!allowedRoles.includes(role)) {
+        res.status(401).json({
+            message: "Invalid Role",
+        });
+        return;
+    }
+    const user = await User.findByIdAndUpdate(req.user?._id, {
+        role,
+    }, {
+        new: true,
+    });
+    if (!user) {
+        res.status(404).json({
+            message: "User Not Found ",
+        });
+    }
+    const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+        expiresIn: "15d",
+    });
+    return res.status(201).json({
+        user,
+        token
     });
 });
