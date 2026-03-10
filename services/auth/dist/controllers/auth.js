@@ -1,8 +1,19 @@
 import { asyncHandler } from "../middlewares/asyncHandler.js";
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
+import { oauth2Client } from "../config/googleConfig.js";
+import axios from "axios";
 export const loginController = asyncHandler(async (req, res) => {
-    const { name, email, picture } = req.body;
+    const { code } = req.body;
+    if (!code) {
+        return res.status(400).json({
+            message: "Authorization Code required",
+        });
+    }
+    const googleRes = await oauth2Client.getToken(code);
+    oauth2Client.setCredentials(googleRes.tokens);
+    const userRes = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`);
+    const { name, email, picture } = userRes.data;
     if (!name || !email || !picture) {
         return res.status(400).json({
             message: "email name and picture required",
