@@ -4,7 +4,7 @@ import User from "../models/user.js";
 import jwt from "jsonwebtoken";
 import { authenticatedRequest } from "../middlewares/authMiddleware.js";
 import { oauth2Client } from "../config/googleConfig.js";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 export const loginController = asyncHandler(async (req, res) => {
 
