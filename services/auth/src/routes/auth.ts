@@ -1,8 +1,9 @@
 import express from "express"
+import { loginController } from "../controllers/auth.js"
 
 const router = express.Router()
 
-router.get("/",()=>console.log("asdf")
+router.post("/login", loginController
 )
 
 export default router
