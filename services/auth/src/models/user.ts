@@ -28,7 +28,7 @@ const userSchema:Schema<Iuser> = new Schema({
     }
 
 
-})
+},{timestamps:true})
 
 
 const User =  model<Iuser>("User",userSchema);

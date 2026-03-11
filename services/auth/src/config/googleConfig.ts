@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_IT
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
 
 export const oauth2Client = new google.auth.OAuth2(

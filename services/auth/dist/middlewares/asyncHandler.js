@@ -4,6 +4,7 @@ export const asyncHandler = (fn) => {
             await fn(req, res, next);
         }
         catch (error) {
+            console.log("Error : ", error);
             res.status(500).json({
                 message: `Error : ${error.message}`
             });

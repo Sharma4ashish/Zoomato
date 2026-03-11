@@ -13,6 +13,7 @@ export const loginController = asyncHandler(async (req, res) => {
     const googleRes = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(googleRes.tokens);
     const userRes = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`);
+    console.log(userRes);
     const { name, email, picture } = userRes.data;
     if (!name || !email || !picture) {
         return res.status(400).json({
@@ -68,4 +69,8 @@ export const adduserRole = asyncHandler(async (req, res) => {
         user,
         token
     });
+});
+export const myProfile = asyncHandler(async (req, res) => {
+    const user = req.user;
+    res.json(user);
 });
