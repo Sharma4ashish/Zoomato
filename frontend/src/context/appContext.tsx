@@ -1,4 +1,4 @@
-import React, { createContext, useContext , useEffect, useState} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { authService } from "../main";
 import axios from "axios";
 import type { AppContextType, LocationData, User } from "../types";
@@ -6,53 +6,52 @@ import type { AppContextType, LocationData, User } from "../types";
 
 export const AppContext = createContext<AppContextType | undefined>(undefined)
 
-export const AppProvider = AppContext.Provider;
-
-interface AppContextProvider {
-    children : React.ReactNode;
+interface AppProviderProps {
+    children: React.ReactNode;
 }
+export const AppProvider = ({ children }: AppProviderProps) => {
+    const [user, setUser] = useState<User | null>(null);
+    const [isAuth, setIsAuth] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-export const AppContextProvider = ({children} : AppContextProvider)=>{
-    const [user, setUser] = useState<User | null>(null)
-    const [isAuth, setIsAuth] = useState< Boolean>(false)
-    const [loading, setLoading] = useState<Boolean>(false)
+    const [location, setLocation] = useState<LocationData | null>(null);
+    const [loadingLocation, setLoadingLocation] = useState(false);
+    const [city, setCity] = useState("Fecthing Location...");
 
-    const [location, setLocation] = useState<LocationData | null>(null)
-    const [locationLoading, setLocationLoading] = useState(false)
-    const [city, setCity] = useState("fetching location...")
-
-    async function fetchUser(){
+    async function fetchUser() {
         try {
             const token = localStorage.getItem("token");
-            const {data} = await axios.get(`${authService}/api/auth/me`, {
-                headers:{
-                    Authorization: `Bearer ${token}`
-                }
+
+            const { data } = await axios.get(`${authService}/api/auth/me`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
-            console.log("Ashihs",data);
-            setUser(data.user)
-            setIsAuth(true)
-            
+
+            setUser(data);
+            setIsAuth(true);
         } catch (error) {
-            console.log(error);        
-        }
-        finally{
-            setLoading(false)
+            console.log(error);
+        } finally {
+            setLoading(false);
         }
     }
-
-    useEffect(()=>{
+    useEffect(() => {
         fetchUser()
-    },[])
+    }, [])
 
-    return(
-        <AppProvider value={{user, isAuth, loading, setUser, setIsAuth, setLoading, location}}>
+    return (
+        <AppContext.Provider value={{ user, isAuth, loading, setUser, setIsAuth, setLoading, location }}>
             {children}
-        </AppProvider>
+        </AppContext.Provider>
     )
 
 }
 
-export const useAppContext = () => {
-    return useContext(AppContext)
-}
+export const useAppData = (): AppContextType => {
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error("useAppData must be used within AppProvider");
+  }
+  return context;
+};

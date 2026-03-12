@@ -17,11 +17,13 @@ export interface LocationData{
 
 export interface AppContextType{
     user:User | null;
-    isAuth:Boolean;
+    isAuth:boolean;
     location:LocationData | null;
-    loading:Boolean;
+    loading:boolean;
     setUser: React.Dispatch<SetStateAction<User| null>>;
-    setIsAuth:React.Dispatch<SetStateAction< Boolean>>;
-    setLoading:React.Dispatch<SetStateAction<Boolean>>;
+    setIsAuth: React.Dispatch<SetStateAction<boolean>>;
+    setLoading: React.Dispatch<SetStateAction<boolean>>;
+
+
     // setLocati÷on:React.Dispatch<SetStateAction<LocationData | null>>
 }

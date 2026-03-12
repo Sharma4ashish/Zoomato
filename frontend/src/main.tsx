@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import './index.css'
 import App from './App.tsx'
-import { AppContextProvider } from './context/appContext.tsx';
+import { AppContextProvider } from './context/AppContext.tsx';
 
 export const authService = "http://localhost:5001"
 export const priamryColor = "#E23774"
