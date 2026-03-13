@@ -6,19 +6,24 @@ import { Toaster } from 'react-hot-toast'
 import ProtectedRoute from './components/ProtectedRoutes'
 import PublicRoute from './components/PublicRoutes'
 import SelectRole from './pages/SelectRole'
+import Navbar from './components/Navbar'
+import Account from './pages/Account'
 
 
 function App() {
 
   return (
     <BrowserRouter>
+    <Navbar/>
       <Routes>  
         < Route element={<PublicRoute/>}>
-          <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
         </Route>
         <Route element={<ProtectedRoute/>}>
+          <Route path='/' element={<Home />} />
+
           <Route path='/select-role' element={<SelectRole/>} />
+          <Route path='/account' element={<Account/>} />
         </Route>
       </Routes>
       <Toaster/>

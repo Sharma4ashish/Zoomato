@@ -3,6 +3,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { authService } from '../main'
 import { useAppData } from '../context/AppContext'
+import { useNavigate } from 'react-router-dom'
 
 
 type Role = "customer" | "seller" | "rider" | null
@@ -20,8 +21,14 @@ function SelectRole() {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
             })
+            console.log(data);
+            
             localStorage.setItem("token", data.token);
+            // const navigate = useNavigate();
+            // navigate("/");
             setUser(data.user);
+            
+
         } catch (error) {
             alert("Error adding role. Please try again.")
             console.log(error);
