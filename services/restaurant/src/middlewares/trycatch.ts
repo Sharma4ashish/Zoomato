@@ -1,7 +1,7 @@
 import { Request, Response ,NextFunction, RequestHandler } from "express"
 
 
-export const asyncHandler = (fn:RequestHandler) :RequestHandler => {
+export const TryCatch = (fn:RequestHandler) :RequestHandler => {
 
     return async (req:Request, res:Response , next:NextFunction)=>{
         try {
@@ -15,3 +15,5 @@ export const asyncHandler = (fn:RequestHandler) :RequestHandler => {
         }
     }
 } 
+
+export default TryCatch;
