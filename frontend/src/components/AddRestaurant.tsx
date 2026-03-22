@@ -17,7 +17,6 @@ const AddRestaurant = ({ fetchMyRestaurant }: props) => {
   const [submitting, setSubmitting] = useState(false);
 
   const { loadingLocation, location } = useAppData();
-  
 
   const handleSubmit = async () => {
     if (!name || !image || !location) {

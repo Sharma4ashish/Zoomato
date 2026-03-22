@@ -67,7 +67,7 @@ export const addRestraunt = TryCatch(async (req: AuthenticatedRequest, res) => {
     image: uploadResult.url,
     ownerId: user._id,
     autoLocation: {
-      type: "point",
+      type: "Point",
       coordinates: [Number(longitude), Number(latitude)],
       formattedAddress,
     },
@@ -107,7 +107,7 @@ export const fetchMyRestaurant = TryCatch(
             restaurantId: restaurant._id,
           },
         },
-        process.env.JWT_SEC as string,
+        process.env.JWT_SECRET as string,
         {
           expiresIn: "15d",
         }

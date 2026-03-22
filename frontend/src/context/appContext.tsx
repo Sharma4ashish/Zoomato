@@ -53,7 +53,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
                 );
                 const data = await res.json();
 
-                console.log(data);
+                // console.log(data);
                 
 
                 setLocation({
@@ -61,7 +61,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
                     latitude,
                     formattedAddress:data.display_name || "current locaiton"
                 })
-
+                setLoadingLocation(false);
                 setCity(data.address.city || data.address.town || data.address.village || "Your location")
 
             } catch (error) {

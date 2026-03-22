@@ -9,7 +9,7 @@ export interface IRestaurant{
     isVerified:boolean;
 
     autoLocation:{
-        type:"point";
+        type:"Point";
         coordinates:[number,number]; //[log, lat]
         formatedAddress:string
     };
@@ -42,7 +42,7 @@ const restaurantSchema = new mongoose.Schema<IRestaurant>({
     autoLocation:{
         type:{
             type:String,
-            enum:["point"],
+            enum:["Point"],
             required:true,
         },
         coordinates:{
