@@ -21,6 +21,7 @@ export interface AppContextType{
     location:LocationData | null;
     setLocation:React.Dispatch<SetStateAction<LocationData | null>>
     loading:boolean;
+    loadingLocation:boolean;
     setUser: React.Dispatch<SetStateAction<User| null>>;
     setIsAuth: React.Dispatch<SetStateAction<boolean>>;
     setLoading: React.Dispatch<SetStateAction<boolean>>;
@@ -28,4 +29,23 @@ export interface AppContextType{
 
 
     // setLocati÷on:React.Dispatch<SetStateAction<LocationData | null>>
+}
+
+
+export interface IRestaurant {
+  _id: string;
+  name: string;
+  description?: string;
+  image: string;
+  ownerId: string;
+  phone: number;
+  isVerified: boolean;
+
+  autoLocation: {
+    type: "Point";
+    coordinates: [number, number]; //[longitude, latitude]
+    formattedAddress: string;
+  };
+  isOpen: boolean;
+  createdAt: Date;
 }

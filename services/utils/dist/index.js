@@ -6,10 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cloudinary_1 = __importDefault(require("cloudinary"));
+const cors_1 = __importDefault(require("cors"));
 const cloudinary_js_1 = __importDefault(require("./routes/cloudinary.js"));
 dotenv_1.default.config();
-const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5003;
+const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json({
+    limit: "50mb"
+}));
+app.use(express_1.default.urlencoded({
+    limit: "50mb",
+    extended: true
+}));
 const cloudinaryConfigs = {
     CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
     CLOUDINARY_CLOUD_APIKEY: process.env.CLOUDINARY_CLOUD_APIKEY,

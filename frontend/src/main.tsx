@@ -6,6 +6,7 @@ import App from './App.tsx'
 import { AppProvider } from './context/AppContext.tsx';
 
 export const authService = "http://localhost:5001"
+export const restaurantService = "http://localhost:5002"
 export const priamryColor = "#E23774"
 
 createRoot(document.getElementById('root')!).render(

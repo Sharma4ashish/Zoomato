@@ -7,6 +7,7 @@ interface Iuser {
     email: string;
     role: string;
     image: string;
+    restaurantId:string;
 
 }
 

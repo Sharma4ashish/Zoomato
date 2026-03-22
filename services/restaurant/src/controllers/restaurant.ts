@@ -4,6 +4,9 @@ import { AuthenticatedRequest } from "../middlewares/isAuth.js";
 import TryCatch from "../middlewares/trycatch.js";
 import Restaurant from "../models/Restaurant.js";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 
 export const addRestraunt = TryCatch(async (req: AuthenticatedRequest, res) => {
@@ -64,7 +67,7 @@ export const addRestraunt = TryCatch(async (req: AuthenticatedRequest, res) => {
     image: uploadResult.url,
     ownerId: user._id,
     autoLocation: {
-      type: "Point",
+      type: "point",
       coordinates: [Number(longitude), Number(latitude)],
       formattedAddress,
     },
@@ -81,3 +84,38 @@ export const addRestraunt = TryCatch(async (req: AuthenticatedRequest, res) => {
 
 
 
+export const fetchMyRestaurant = TryCatch(
+  async (req: AuthenticatedRequest, res) => {
+    if (!req.user) {
+      return res.status(401).json({
+        message: "Please Login",
+      });
+    }
+    const restaurant = await Restaurant.findOne({ ownerId: req.user._id });
+
+    if (!restaurant) {
+      return res.status(400).json({
+        message: "No Restaurant found",
+      });
+    }
+
+    if (!req.user.restaurantId) {
+      const token = jwt.sign(
+        {
+          user: {
+            ...req.user,
+            restaurantId: restaurant._id,
+          },
+        },
+        process.env.JWT_SEC as string,
+        {
+          expiresIn: "15d",
+        }
+      );
+
+      return res.json({ restaurant, token });
+    }
+
+    res.json({ restaurant });
+  }
+);
